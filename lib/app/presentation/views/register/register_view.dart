@@ -1,6 +1,10 @@
+import 'package:covenbiins_2/Mongo_Db_Model.dart';
 import 'package:covenbiins_2/app/presentation/views/register/widgets/my_check_box.dart';
+import 'package:covenbiins_2/dbHelper/mondodb.dart';
+import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:mongo_dart/mongo_dart.dart' as M;
 
 import '../../widgets/form_text_field.dart';
 import '../../widgets/my_button_form.dart';
@@ -17,8 +21,8 @@ class RegisterView extends StatefulWidget {
 
 class _RegisterViewState extends State<RegisterView> {
 
-  final _emailAddress = TextEditingController();
-  final _visiblePassword = TextEditingController();
+  var emailAddress = TextEditingController();
+  var visiblePassword = TextEditingController();
 
   bool _checkBox = false;
 
@@ -54,7 +58,7 @@ class _RegisterViewState extends State<RegisterView> {
                     textInputType: TextInputType.emailAddress,
                     obscureText: false,
                     suffixIcon: false,
-                    controller: _emailAddress,
+                    controller: emailAddress,
                   ),
                   const SizedBox(height: 20,),
                   MyFormTextField(
@@ -63,7 +67,7 @@ class _RegisterViewState extends State<RegisterView> {
                     textInputType: TextInputType.visiblePassword,
                     obscureText: true,
                     suffixIcon: false,
-                    controller: _visiblePassword,
+                    controller: visiblePassword,
                   ),
                   const SizedBox(height: 20,),
                   MyFormTextField(
@@ -72,7 +76,7 @@ class _RegisterViewState extends State<RegisterView> {
                     textInputType: TextInputType.visiblePassword,
                     obscureText: true,
                     suffixIcon: false,
-                    controller: _visiblePassword,
+                    controller:   visiblePassword,
                   ),
 
                   const SizedBox(height: 20,),
@@ -101,9 +105,19 @@ class _RegisterViewState extends State<RegisterView> {
                         );
                       }
                       else{
+                        _registarData(emailAddress.text,visiblePassword.text);
                       }
                     },
                   ),
+
+                  const SizedBox(height: 20,),
+
+                  MyButtonForm(
+                    text: 'Prueba',
+                    onTab: () {
+                      _fakeData();
+                    },
+                  )
                   //TextButton
                 ],
               ),
@@ -111,5 +125,33 @@ class _RegisterViewState extends State<RegisterView> {
           )
       ),
     );
+  }
+
+  Future<void> _registarData(String email, String password) async {
+    var id = M.ObjectId();
+    final data = MongoDbModel(
+        id: id,
+        email: email,
+        password: password,
+    );
+    var result = await MongoDatabase.insert(data);
+    ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+            content: Text("Insert ID ${id.$oid}")
+        )
+    );
+    _clearAll();
+  }
+
+  void _clearAll() {
+    emailAddress.text = "";
+    visiblePassword.text = "";
+  }
+
+  void _fakeData() {
+    setState(() {
+      emailAddress.text = faker.internet.email();
+      visiblePassword.text = faker.internet.password();
+    });
   }
 }
