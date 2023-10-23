@@ -1,3 +1,4 @@
+import 'package:covenbiins_2/app/presentation/views/home/home_view.dart';
 import 'package:covenbiins_2/app/presentation/views/login/widgets/login_divider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -86,6 +87,14 @@ class LoginView extends StatelessWidget {
                       print('Email Address: ${_emailAddress.text}');
                       print('Password: ${_visiblePassword.text}');
                     },
+                  ),
+                  const SizedBox(height: 20,),
+
+                  MyButtonForm(
+                      text: 'ir',
+                      onTab: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => HomeView()));
+                      },
                   ),
                   //TextButton
                   const SizedBox(height: 20,),
