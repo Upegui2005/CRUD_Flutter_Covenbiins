@@ -5,23 +5,48 @@ import 'package:covenbiins_2/dbHelper/constant.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 
 class MongoDatabase{
-  static var db, userColection;
-  static connect() async {
+  static late Db db;
+  static late var userCollection, userCollection2;
+
+  static Future<void> connect() async {
+  if (db == null) {
     db = await Db.create(MONGO_CONN_URL);
     await db.open();
     inspect(db);
-    userColection = db.collection(USER_COLLECTION);
+    userCollection = db.collection(USER_COLLECTION);
+    userCollection2 = db.collection(USER_COLLECTION_DOS);
+    }
   }
 
   static Future<List<Map<String, dynamic>>> getData() async {
-    final arrData = await userColection.find().toList();
+    final arrData = await userCollection.find().toList();
     return arrData;
   }
 
   static Future<String> insert(MongoDbModel data) async{
     try{
-      var result = await userColection.insertOne(data. toJson());
+      var result = await userCollection.insertOne(data. toJson());
       if(result){
+        return "Data Insert";
+      }
+      else{
+        return "No Data Insert";
+      }
+    }
+    catch (e){
+      print(e.toString());
+      return e.toString();
+    }
+  }
+
+}
+
+class MongoDatabaseDos{
+
+  static Future<String> insert(ModelPublicar data) async{
+    try{
+      var result = await userColection2.insertOne(data.toJson());
+      if(result.isSuccess){
         return "Data Insert";
       }
       else{

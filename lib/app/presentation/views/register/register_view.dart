@@ -1,4 +1,5 @@
 import 'package:covenbiins_2/Mongo_Db_Model.dart';
+import 'package:covenbiins_2/app/presentation/views/menu/menu_view.dart';
 import 'package:covenbiins_2/app/presentation/views/register/widgets/my_check_box.dart';
 import 'package:covenbiins_2/dbHelper/mondodb.dart';
 import 'package:faker/faker.dart';
@@ -106,6 +107,7 @@ class _RegisterViewState extends State<RegisterView> {
                       }
                       else{
                         _registarData(emailAddress.text,visiblePassword.text);
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => MenuView()));
                       }
                     },
                   ),
