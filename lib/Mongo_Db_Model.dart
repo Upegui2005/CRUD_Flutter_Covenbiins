@@ -20,7 +20,7 @@ class MongoDbModel {
   String password;
 
   factory MongoDbModel.fromJson(Map<String, dynamic> json) => MongoDbModel(
-    id: ObjectId.parse(json["_id"]["\$oid"]),
+    id: json["_id"],
     email: json["email"],
     password: json["password"],
   );
@@ -46,7 +46,7 @@ class ModelPublicar {
   String precio;
 
   factory ModelPublicar.fromJson(Map<String, dynamic> json) => ModelPublicar(
-      id: ObjectId.parse(json["_id"]["\$oid"]),
+      id: json["_id"],
       titulo: json["titulo"],
       descripcion: json["descripcion"],
       precio: json["precio"]

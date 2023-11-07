@@ -70,7 +70,7 @@ class _PublicarViewState extends State<PublicarView> {
         descripcion: descripcion,
         precio: precio
     );
-    var result = await MongoDatabaseDos.insert(data);
+    var result = await MongoDatabase.insert(data as MongoDbModel);
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Insert ID${_id.$oid}")));
     _limpiar();
   }

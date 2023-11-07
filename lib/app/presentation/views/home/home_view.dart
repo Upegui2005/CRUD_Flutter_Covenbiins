@@ -34,6 +34,7 @@ class _HomeViewState extends State<HomeView> {
                           return displayCard(MongoDbModel.fromJson(snapshot.data[index]));
                         }
                     );
+
                   } else {
                     return const Center(
                       child: Text("No data Available"),
